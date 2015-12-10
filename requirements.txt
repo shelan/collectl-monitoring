@@ -1,0 +1,3 @@
+pandas
+fabric
+pandas_highcharts
