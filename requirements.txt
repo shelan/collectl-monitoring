@@ -1,3 +1,5 @@
 pandas
 fabric
 pandas_highcharts
+jinja2
+chartkick
