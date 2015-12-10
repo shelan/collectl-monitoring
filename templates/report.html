@@ -9,6 +9,10 @@
     <script src="js/chartkick.js"></script>
 </head>
 <body>
-{%line_chart data %}
+<div>
+{%line_chart mem_data with library={"title":{"text":"Memory Statistics"}}%}
+</div>
+
+{%line_chart cpu_data with library={"title":{"text":"CPU Statistics"}}%}
 </body>
 </html>
