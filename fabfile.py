@@ -1,25 +1,22 @@
 import os
-import time
-from fabric import contrib
 from fabric.api import *
+from ConfigParser import SafeConfigParser
 
-download_folder = '/Users/ashansa/HS/3rdSem/mini_project/experiments-karamel/collectl-monitoring/results/1/'
+parser = SafeConfigParser()
+parser.read('config.ini')
 
-env.hosts = ['46.137.66.236','54.74.232.120','54.195.65.147']
+env.hosts = parser.get('env', 'hosts')
+env.user = parser.get('env', 'user')
+download_folder = parser.get('log', 'download_folder')
 
-env.user = "ubuntu"
 
-
-# def update():
-#     with cd("/srv/django/myapp"):
-#         run("git pull")
+def status():
+    print env.hosts
+    print env.user
 
 
 def setup():
     sudo("apt-get install collectl -y")
-    # sudo("service collectl start -p")
-    # time.sleep(5)
-    # sudo("service collectl stop")
     sudo("sed -i '/DaemonCommands =/c\DaemonCommands =-P -f /var/log/collectl' /etc/collectl.conf")
 
 
@@ -34,20 +31,18 @@ def stop():
     sudo("service collectl stop")
 
 
-def reload():
-    sudo("service apache2 reload")
+def collect(folder="collectl"):
+    # with cd("/var/log/collectl"):
+    # with warn_only():
+    # sudo("rm -rf *.tab")
+    # sudo("find . -name '*.gz'| xargs gzip -d")
+    global download_folder
+    if not download_folder.endswith(os.path.sep):
+        download_folder = download_folder + os.path.sep
 
-
-def collect():
-    with cd("/var/log/collectl"):
-        with warn_only():
-            sudo("rm -rf *.tab")
-            #sudo("find . -name '*.gz'| xargs gzip -d")
     if not os.path.exists(download_folder + env.host):
         os.mkdir(download_folder + env.host)
-    get("/var/log/collectl/*.tab.gz", download_folder + env.host)
+    get("/var/log/collectl/*.tab.gz", download_folder + folder + os.path.sep + env.host)
 
     os.chdir(download_folder + env.host)
     os.system("find . -name '*.gz'| xargs gzip -d")
-
-
