@@ -1,21 +1,41 @@
+from operator import itemgetter
+
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
+import os
 
-file = open('/Users/shelan/projects/karamel/karamel-stats/172.28.128.7/vm3-hostname-20151209.tab')
+folder = '/Users/shelan/projects/karamel/karamel-stats/new-temp/tmp'
+hosts =[]
+# get all the paths of the root folder
+files = [os.path.join(folder, fn) for fn in next(os.walk(folder))[2] if not fn.startswith(".")]
 
-data = pd.read_csv(file, delim_whitespace=True, skiprows=14, index_col='timestamp', parse_dates={'timestamp': [0, 1]})
+for file in files:
+    data = pd.read_csv(file, delim_whitespace=True, comment='#', header=-1, index_col='timestamp',
+                       parse_dates={'timestamp': [0, 1]})
+
+    hostname = os.path.basename(file).replace('.tab', "")
+
+    host_data ={}
+    host_data ['name'] = hostname
+
+    host_data['mem_data'] = data.ix[:, 20].to_json(date_format='iso')
+    host_data['cpu_data'] = data.ix[:, 2].to_json(date_format='iso')
+    host_data['cpu_load'] = data.ix[:, 16].to_json(date_format='iso')
+
+    disk_read = data.ix[:, 64]
+    disk_write = data.ix[:, 65]
+
+    hosts.append(host_data)
+
 
 env = Environment(loader=FileSystemLoader('templates'))
 env.add_extension("chartkick.ext.charts")
-template = env.get_template('report.html')
-
-mem_data = data.ix[:, '[MEM]Free']
-cpu_data = data.ix[:, '[CPU]Sys%']
+template = env.get_template('cpu_template.html')
 
 output = template.render(
-    mem_data=mem_data.to_json(date_format='iso'),
-    cpu_data=cpu_data.to_json(date_format='iso')
+    hosts=sorted(hosts, key=itemgetter('name'),reverse=True) ,
 )
 
-with open('my_new_html_file.html', 'w') as f:
+with open('report_memory.html', 'w') as f:
     f.write(output)
+

@@ -21,33 +21,19 @@
 
 <div class="container">
 
-    <h3>Memory</h3>
 
-    <div class="row">
-
-        <div class="col-lg-12">
-            {% line_chart mem_data with library={"title":{"text":"Memory Statistics"},"chart" :{'backgroundColor': '#FCFFC5'}} %}
-        </div>
-    </div>
 
     <h3>CPU</h3>
 
+    {% for host in hosts %}
     <div class="row">
         <div class="col-lg-12">
-            {% line_chart cpu_data with library={"title":{"text":"CPU Statistics"},"chart" :{'backgroundColor': '#FFCC89'}} %}
+            {% line_chart host.cpu_data with library={"title":{"text":host.name},"chart" :{'backgroundColor': '#FFCC89'}} %}
             <br>
-            {% line_chart cpu_load with library={"title":{"text":"CPU Load"},"chart" :{'backgroundColor': '#FFCC89'}} %}
         </div>
     </div>
-    <h3>Disk Stats</h3>
+    {% endfor %}
 
-    <div class="row">
-        <div class="col-lg-12">
-            {% line_chart disk_read with library={"title":{"text":"Disk Reads"},"chart" :{'backgroundColor': '#FFDDDD'}} %}
-           <br>
-            {% line_chart disk_write with library={"title":{"text":"Disk Writes"},"chart" :{'backgroundColor': '#FFDDDD'}} %}
-        </div>
-    </div>
 </div>
 </body>
 </html>
