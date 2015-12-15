@@ -3,7 +3,7 @@ import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 import os
 
-folder = '/Users/shelan/projects/karamel/karamel-stats/terasort-200'
+folder = '/Users/shelan/projects/karamel/karamel-stats/terasort-600'
 hosts = []
 # get all the paths of the root folder
 files = [os.path.join(folder, fn) for fn in next(os.walk(folder))[2] if not fn.startswith(".")]
