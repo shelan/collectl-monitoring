@@ -26,18 +26,17 @@
 
     <ul class="nav nav-tabs">
         <li><a href="report_cpu.html">CPU</a></li>
-        <li><a href="report_memory.html">Memory</a></li>
-        <li class="active"><a href="#">Disk Usage</a></li>
-        <li><a href="report_disk.html">Network Usage</a></li>
+        <li><a href="#">Memory</a></li>
+        <li><a href="report_disk.html">Disk Usage</a></li>
+        <li class="active"><a href="report_disk.html">Network Usage</a></li>
     </ul>
 
-
-    <h3>Disk Read (MB)</h3>
+    <h3>Network Recieved (KB)</h3>
 
     {% for host in hosts %}
         <div class="row">
             <div class="col-lg-12">
-                {% line_chart host.disk_read with library={"title":{"text":host.name}} %}
+                {% line_chart host.net_rx with library={"title":{"text":host.name}} %}
                 <br>
             </div>
         </div>
@@ -45,17 +44,16 @@
 
     <br>
 
-    <h3>Disk Write (MB)</h3>
+    <h3>Network Transmitted (KB)</h3>
 
     {% for host in hosts %}
         <div class="row">
             <div class="col-lg-12">
-                {% line_chart host.disk_write with library={"title":{"text":host.name}} %}
+                {% line_chart host.net_tx with library={"title":{"text":host.name}} %}
                 <br>
             </div>
         </div>
     {% endfor %}
-
 </div>
 </body>
 </html>

@@ -8,6 +8,7 @@ hosts = []
 # get all the paths of the root folder
 files = [os.path.join(folder, fn) for fn in next(os.walk(folder))[2] if not fn.startswith(".")]
 
+
 for file in files:
     data = pd.read_csv(file, delim_whitespace=True, comment='#', header=-1, index_col='timestamp',
                        parse_dates={'timestamp': [0, 1]})
@@ -29,7 +30,8 @@ for file in files:
     host_data['disk_write'] = data.ix[:, 67].apply(lambda x: x / 1024).to_json(date_format='iso')
 
     # Network Data
-
+    host_data['net_rx'] = data.ix[:, 57].to_json(date_format='iso')
+    host_data['net_tx'] = data.ix[:, 58].to_json(date_format='iso')
 
     hosts.append(host_data)
 
@@ -39,6 +41,7 @@ env.add_extension("chartkick.ext.charts")
 cpu_template = env.get_template('cpu_template.html')
 memory_template = env.get_template('memory_template.html')
 disk_template = env.get_template('disk_template.html')
+network_template = env.get_template('network_template.html')
 
 cpu_output = cpu_template.render(
     hosts=sorted(hosts, key=itemgetter('name'), reverse=True),
@@ -49,6 +52,9 @@ memory_output = memory_template.render(
 disk_output = disk_template.render(
     hosts=sorted(hosts, key=itemgetter('name'), reverse=True),
 )
+network_output = network_template.render(
+    hosts=sorted(hosts, key=itemgetter('name'), reverse=True),
+)
 
 with open('report_cpu.html', 'w') as f:
     f.write(cpu_output)
@@ -56,3 +62,5 @@ with open('report_memory.html', 'w') as f:
     f.write(memory_output)
 with open('report_disk.html', 'w') as f:
     f.write(disk_output)
+with open('report_network.html', 'w') as f:
+    f.write(network_output)
