@@ -8,7 +8,7 @@ parser.read('config.ini')
 # env.hosts = list(parser.get('env', 'hosts'))
 # env.user = parser.get('env', 'user')
 
-env.hosts = ['54.203.69.208','54.184.183.17','54.184.146.84']
+env.hosts = ['52.12.10.123','54.214.91.253','54.218.138.101']
 env.user = 'ubuntu'
 download_folder = parser.get('log', 'download_folder')
 
