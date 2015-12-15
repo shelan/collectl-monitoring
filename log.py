@@ -1,3 +1,4 @@
+from distutils.dir_util import copy_tree
 from operator import itemgetter
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
@@ -7,7 +8,6 @@ folder = '/Users/shelan/projects/karamel/karamel-stats/terasort-600'
 hosts = []
 # get all the paths of the root folder
 files = [os.path.join(folder, fn) for fn in next(os.walk(folder))[2] if not fn.startswith(".")]
-
 
 for file in files:
     data = pd.read_csv(file, delim_whitespace=True, comment='#', header=-1, index_col='timestamp',
@@ -55,6 +55,29 @@ disk_output = disk_template.render(
 network_output = network_template.render(
     hosts=sorted(hosts, key=itemgetter('name'), reverse=True),
 )
+
+test_name = os.path.basename(folder)
+if not os.path.exists(test_name):
+    os.mkdir(test_name)
+
+os.chdir(test_name)
+
+
+#creating folder structure
+if not os.path.exists('css'):
+    os.mkdir('css')
+if not os.path.exists('js'):
+    os.mkdir('js')
+if not os.path.exists('img'):
+    os.mkdir('img')
+if not os.path.exists('fonts'):
+    os.mkdir('fonts')
+
+copy_tree(os.path.abspath('../css'), 'css')
+copy_tree(os.path.abspath('../js'), 'js')
+copy_tree(os.path.abspath('../img'), 'img')
+copy_tree(os.path.abspath('../fonts'), 'fonts')
+
 
 with open('report_cpu.html', 'w') as f:
     f.write(cpu_output)
