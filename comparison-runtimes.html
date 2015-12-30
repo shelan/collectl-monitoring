@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Collectl Monitoring Graph</title>
+    <!--<script src="http://www.google.com/jsapi"></script>-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="js/chartkick.js"></script>
+    <!-- Loading Bootstrap -->
+    <link href="css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="css/flat-ui.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Flat UI's JavaScript plugins) -->
+    <script src="js/vendor/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/flat-ui.min.js"></script>
+    <script src="js/themes/dark-unica.js"></script>
+</head>
+<body>
+
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+</body>
+<script>
+        $('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Spark vs Flink : Batch Processing Result'
+            },
+            xAxis: {
+                categories: [
+                    '200GB',
+                    '400GB',
+                    '600GB'
+                ],
+                crosshair: false
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Runtime (minutes)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Spark',
+                data: [23.53, 46.7, 69.56],
+                color: '#FACC2E'
+
+            }, {
+                name: 'Flink',
+                data: [17.45, 31.12, 47.47],
+                color: '#BE81F7'
+
+            }]
+        });
+</script>
+
+</html>

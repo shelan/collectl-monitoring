@@ -1,15 +1,15 @@
 import os
+
+import time
 from fabric.api import *
 from ConfigParser import SafeConfigParser
 
 parser = SafeConfigParser()
 parser.read('config.ini')
 
-# env.hosts = list(parser.get('env', 'hosts'))
-# env.user = parser.get('env', 'user')
+env.hosts = [x.strip() for x in parser.get('env', 'hosts').split(",")]
+env.user = parser.get('env', 'user')
 
-env.hosts = ['52.12.10.123','54.214.91.253','54.218.138.101']
-env.user = 'ubuntu'
 download_folder = parser.get('log', 'download_folder')
 
 
@@ -22,32 +22,41 @@ def status():
 def setup():
     sudo("apt-get install collectl -y")
     sudo("sed -i '/DaemonCommands =/c\DaemonCommands =-P -f /var/log/collectl' /etc/collectl.conf")
+    start()
+    time.sleep(3)
+    stop()
+    print "Finished setting up collectl"
 
 
 def start():
     with warn_only():
         sudo("rm -rf /var/log/collectl/*")
     sudo("service collectl start")
+    print "started collectl as a service"
 
 
 def stop():
     sudo("/etc/init.d/collectl flush")
     sudo("service collectl stop")
+    print "stopped collectl"
 
 
-def collect(folder="collectl",engine="default"):
-    # with cd("/var/log/collectl"):
-    # with warn_only():
-    # sudo("rm -rf *.tab")
-    # sudo("find . -name '*.gz'| xargs gzip -d")
+'''
+Graphing and collecting stats
+eg: fab collect:folder=mytest,test=spark
+'''
+
+
+def collect(folder="collectl", test="default"):
     global download_folder
     if not download_folder.endswith(os.path.sep):
         download_folder = download_folder + os.path.sep
-    print download_folder
 
     if not os.path.exists(download_folder + folder):
         os.makedirs(download_folder + folder)
-    get("/var/log/collectl/*.tab.gz", download_folder + folder + os.path.sep +env.host+"-"+engine+".gz")
+    get("/var/log/collectl/*.tab.gz", download_folder + folder + os.path.sep + env.host + "-" + test + ".gz")
 
     os.chdir(download_folder + folder)
     os.system("find . -name '*.gz'| xargs gzip -d")
+
+    print "logs were downloaded to ==> " + os.getcwd()
