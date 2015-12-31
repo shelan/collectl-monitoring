@@ -33,17 +33,17 @@ download_folder=/Users/shelan/projects/karamel/karamel-stats/
  
  and you can use fabric commands to peform following actions
  
-    setup - To setup Collectl in remote servers
-    start - To start Collectl as a service in remote servers
-    stop - To stop the Collectl service in remote servers
+ setup - To setup Collectl in remote servers
+ start - To start Collectl as a service in remote servers
+ stop - To stop the Collectl service in remote servers
     
-    You may issue fabric tasks as following. For an example if you need to setup collectl in remote servers.
+ You may issue fabric tasks as following. For an example if you need to setup collectl in remote servers.
     
   ``` fab setup -i <path to ssh key> ```
   or
   ``` fab setup -p <password of the ssh user>```
     
-    collect:folder=<Folder>,test=<Name of test> This will collect logs from remote servers
+ collect:folder=<Folder>,test=<Name of test> This will collect logs from remote servers
     
  
 
