@@ -5,7 +5,7 @@ from fabric.api import *
 from ConfigParser import SafeConfigParser
 
 parser = SafeConfigParser()
-parser.read('config.ini')
+parser.read('conf/config.ini')
 
 env.hosts = [x.strip() for x in parser.get('env', 'hosts').split(",")]
 env.user = parser.get('env', 'user')
