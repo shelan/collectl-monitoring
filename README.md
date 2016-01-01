@@ -2,7 +2,7 @@
 This project will monitor a cluster using collectl and provide a report when required
 
 ## Demo
-You can view a sample report [here]. (http://shelan.org/collectl-monitoring/sample/report_cpu.html)
+You can view a sample report [here](http://shelan.org/collectl-monitoring/sample/report_cpu.html)
 
 
 ### installing required packages
