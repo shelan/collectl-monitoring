@@ -1,5 +1,7 @@
 # collectl-monitoring
-This project will monitor a cluster using collectl and provide a report when required
+=========================================
+
+This project will monitor a cluster using collectl and provide a report for the collected data. This tool can be used for performance tests. This supports a typical workflow of start monitoring, stop monitoring and plotting collected results.
 
 ## Demo
 You can view a sample report [here](http://shelan.org/collectl-monitoring/sample/report_cpu.html).
@@ -30,6 +32,10 @@ download_folder=/Users/shelan/projects/karamel/karamel-stats/
 ```
 
 ### How to use to collect data from servers
+--------------------------------------------
+
+At present this tool can be used to draw the graphs after collecting data.
+
 
  This uses **python fabric** to cordinate deployment across servers.
  
@@ -37,7 +43,7 @@ download_folder=/Users/shelan/projects/karamel/karamel-stats/
  
  and you can use fabric commands to peform following actions
  
- * ``` setup``` - To setup Collectl in remote servers
+ * ```setup``` - To setup Collectl in remote servers
  * ```start``` - To start Collectl as a service in remote servers
  * ```stop ```- To stop the Collectl service in remote servers
     
