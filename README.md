@@ -1,5 +1,6 @@
 # collectl-monitoring
-=========================================
+
+![alt text](https://github.com/shelan/collectl-monitoring/blob/master/img/screenshot.png "Screenshot")
 
 This project will monitor a cluster using collectl and provide a report for the collected data. This tool can be used for performance tests. This supports a typical workflow of start monitoring, stop monitoring and plotting collected results.
 
