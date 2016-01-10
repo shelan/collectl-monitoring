@@ -6,18 +6,24 @@ import sys
 from jinja2 import Environment, FileSystemLoader
 import os
 
+
 def generate_reports(folder):
     hosts = []
     # get all the paths of the root folder
     files = [os.path.join(folder, fn) for fn in next(os.walk(folder))[2] if not fn.startswith(".")]
 
-    print files
+    for logfile in files:
+        try:
+            data = pd.read_csv(logfile, delim_whitespace=True, comment='#', header=-1, index_col='timestamp',
+                               parse_dates={'timestamp': [0, 1]})
+            print "reading data from " + logfile
+        except Exception, err:
+            print "duplicate index occured in " + logfile
 
-    for file in files:
-        data = pd.read_csv(file, delim_whitespace=True, comment='#', header=-1, index_col='timestamp',
-                           parse_dates={'timestamp': [0, 1]})
+            print "There are two similar timestamps in the log." \
+                  " To correct that error remove the duplicate entry from " + logfile
 
-        hostname = os.path.basename(file).replace('.tab', "")
+        hostname = os.path.basename(logfile).replace('.tab', "")
 
         host_data = {}
         host_data['name'] = hostname
@@ -67,6 +73,8 @@ def generate_reports(folder):
 
     os.chdir(test_name)
 
+
+
     # creating folder structure
     if not os.path.exists('css'):
         os.mkdir('css')
@@ -96,7 +104,10 @@ def main(argv):
     try:
         folder = argv[1].strip()
         generate_reports(folder)
-    except Exception:
+        print "########################################"
+        print "report generated successfully"
+    except Exception, err:
+        print err.message
         print "should provide an input folder. ex : python plotter.py <input-folder>"
 
 
