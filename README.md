@@ -97,7 +97,7 @@ At present this tool can be used to draw the graphs after collecting data.
     You might redo the same thing with Apache Spark performance test and below you can see a sample directory structure after you collect both
     Spark and Flink data.
     
-    
+    ```
     terasort-600/
     ├── 52.12.10.123-flink
     ├── 52.12.10.123-spark
@@ -105,6 +105,8 @@ At present this tool can be used to draw the graphs after collecting data.
     ├── 54.214.91.253-spark
     ├── 54.218.138.101-flink
     └── 54.218.138.101-spark
+    
+    ```
   
     
 
