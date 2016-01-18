@@ -55,8 +55,60 @@ At present this tool can be used to draw the graphs after collecting data.
   ``` fab setup -p <password of the ssh user>```
     
  * ```collect:folder=<Folder>,test=<Name of test> ```This will collect logs from remote servers
-    
  
+ ### How to Structure your collectl logs 
+ -----------------------------------------
+  When you download your logs from the fab command ```collect:folder=<$folder>,test=<$name_of_test>```,
+  
+  * firstly it will create a folder, (If it does not exist) for the $folder name you given in the command.
+  
+  * Then all the files from remote servers will be downloaded into that *folder* appending the ip address and $name_of_test
+  that you have given in the command.
+ 
+ 
+### Example Scenario on how to collect metrics and plot them.
+-----------------------------------------
+    
+    Let's imagine that you needed to run an experiment to measure system level performance for Apache Spark and Apache Flink in Following machines.
+    
+    ``` 52.12.10.123 , 54.214.91.253 , 54.218.138.101```
+    
+    First you need to setup as mentioned in the above [section] (https://github.com/shelan/collectl-monitoring#how-to-use-to-collect-data-from-servers)
+     to install collectl in the machines.
+    
+    After that,
+    
+    * Just before you run your experiment issue the command
+    
+    
+    ```fab start -i <path to ssh key of you remoter server's ssh user>``` ( alternatively you may give -p <password of remote user>)
+    
+    * After finishing your experiment
+    
+     ```fab stop -i <path to ssh key of you remoter server's ssh user>``` ( alternatively you may give -p <password of remote user>)
+     
+     
+     Lets say you ran this experiment for Apache Flink and you need to name the collected files as below in a folder called terasort-600
+     
+     52.12.10.123-flink , 54.214.91.253-flink , 54.218.138.101-flink
+     
+     If you issue the following command,
+     
+    fab collect:folder=teragen-600,test=flink it will collect the files in to a folder named terasort-600.
+    
+    You might redo the same thing with Apache Spark performance test and below you can see a sample directory structure after you collect both
+    Spark and Flink data.
+    
+    
+    terasort-600/
+    ├── 52.12.10.123-flink
+    ├── 52.12.10.123-spark
+    ├── 54.214.91.253-flink
+    ├── 54.214.91.253-spark
+    ├── 54.218.138.101-flink
+    └── 54.218.138.101-spark
+  
+    
 
  
  
