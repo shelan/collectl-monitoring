@@ -42,7 +42,7 @@ At present this tool can be used to draw the graphs after collecting data.
  
  navigate to *SOURCE_ROOT*
  
- and you can use fabric commands to peform following actions
+ and you can use following fabric commands to peform following actions
  
  * ```setup``` - To setup Collectl in remote servers
  * ```start``` - To start Collectl as a service in remote servers
