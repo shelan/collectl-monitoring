@@ -93,7 +93,7 @@ Lets say you ran this experiment for Apache Flink and you need to name the colle
      
 If you issue the following command,
      
-fab collect:folder=teragen-600,test=flink it will collect the files in to a folder named terasort-600.
+``` fab collect:folder=teragen-600,test=flink ``` it will collect the files in to a folder named terasort-600.
     
 You might redo the same thing with Apache Spark performance test and below you can see a sample directory structure after you collect both Spark and Flink data.
     
