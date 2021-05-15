@@ -14,7 +14,7 @@ You can view a sample report [here](http://shelan.org/collectl-monitoring/sample
 3. git clone the collectl-monitoring (this) repository.
 4. change directory to the root of the cloned repository. Lets call this folder as *SOURCE_ROOT*
 5. install required python packages.
-    ``` pip install -r requirments.txt```
+    ``` pip install -r requirements.txt```
 
 ### Configuration file
 
